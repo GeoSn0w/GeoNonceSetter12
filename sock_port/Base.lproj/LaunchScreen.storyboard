@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina4_0" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Blood" translatesAutoresizingMaskIntoConstraints="NO" id="9oZ-Zf-cy9">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GeoSetter" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jRY-uf-FLn">
+                                <rect key="frame" x="62.5" y="172" width="195" height="84"/>
+                                <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="52"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="9oZ-Zf-cy9" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="112-Na-ymY"/>
+                            <constraint firstItem="jRY-uf-FLn" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Hu0-ZE-5s1"/>
+                            <constraint firstItem="9oZ-Zf-cy9" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="Lsz-0S-fbK"/>
+                            <constraint firstItem="9oZ-Zf-cy9" firstAttribute="centerX" secondItem="jRY-uf-FLn" secondAttribute="centerX" id="ZB1-iR-cdm"/>
+                            <constraint firstItem="9oZ-Zf-cy9" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="iv5-RU-E8A"/>
+                            <constraint firstItem="jRY-uf-FLn" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="152" id="myt-6g-WGF"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="50.724637681159422" y="374.18478260869568"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Blood" width="375" height="667"/>
+    </resources>
+</document>
