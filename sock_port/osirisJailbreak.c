@@ -1,9 +1,9 @@
 //
 //  osirisJailbreak.c
-//  sock_port
+//  GeoSetter
 //
-//  Created by GeoSn0w on 8/20/19.
-//  Copyright © 2019 Jake James. All rights reserved.
+//  Created by GeoSn0w on 8/24/19.
+//  Copyright © 2019 GeoSn0w. All rights reserved.
 //
 
 #include "osirisJailbreak.h"
@@ -17,8 +17,9 @@
 #include <spawn.h>
 #include "iosurface.h"
 
+// Vars
 uint64_t ucred_field, ucred;
-static uint64_t original_nvram_vtable = 0;
+static uint64_t origNVRAM_VTABLE = 0;
 static uint64_t fake_nvram_vtable = 0;
 static io_service_t IODTNVRAMSrv = MACH_PORT_NULL;
 static const size_t kernel_buffer_size = 0x4000;
@@ -26,8 +27,11 @@ static const size_t max_vtable_size = 0x1000;
 const uint64_t searchNVRAMProperty = 0x590;
 const uint64_t getOFVariablePerm = 0x558;
 task_port_t tfp0;
+
+// Funcs
 void executeCommandAtFuckingPath(const char* path, int argc, ...);
-void unlocknvram(void);
+void nvram_unlock_func(void);
+void nvram_lockback_func(void);
 uint64_t findOurselves(void);
 int elevatePrivsAndShaiHulud(void);
 void restore_credentials(uint64_t ucred_field, uint64_t ucred);
@@ -37,7 +41,7 @@ void restore_credentials(uint64_t ucred_field, uint64_t ucred);
 int initOsiris(task_port_t tzero){
     printf("\n[*] Initializing Osiris Jailbreak Engine...\n");
     tfp0 = tzero;
-    unlocknvram();
+    nvram_unlock_func();
     findOurselves();
     assume_kernel_credentials(&ucred_field, &ucred);
     if (elevatePrivsAndShaiHulud() == 0){
@@ -54,6 +58,7 @@ int deinitOsiris(){
 // Hell breaks loose
 
 uint64_t kernel_forge_pacda(uint64_t pointer, uint64_t context) {
+    // Not planning any A12 support as I don't have an A12 to test on.
     return pointer;
 }
 
@@ -73,8 +78,8 @@ uint64_t findOurselves(){
     }
     return self;
 }
+
 int elevatePrivsAndShaiHulud(){
-    // ucred
         unsigned off_ucred_cr_uid = 0x18;
         unsigned off_ucred_cr_ruid = 0x1c;
         unsigned off_ucred_cr_svuid = 0x20;
@@ -113,7 +118,6 @@ int elevatePrivsAndShaiHulud(){
         uint64_t cr_label = rk64(creds + off_ucred_cr_label);
         wk64(cr_label + off_sandbox_slot, 0);
     
-    
     if (geteuid() == 0) {
         FILE * testfile = fopen("/var/mobile/OsirisJailbreak", "w");
         if (!testfile) {
@@ -129,7 +133,8 @@ int elevatePrivsAndShaiHulud(){
     }
     return 0;
 }
-uint64_t get_iodtnvram_obj(void) {
+
+uint64_t iodtnvram_fetch_ls(void) {
     if (!MACH_PORT_VALID(IODTNVRAMSrv)) {
         IODTNVRAMSrv = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("IODTNVRAM"));
     };
@@ -141,26 +146,23 @@ uint64_t get_iodtnvram_obj(void) {
     return IODTNVRAMObj;
 }
 
-void unlocknvram() {
-    uint64_t obj = get_iodtnvram_obj();
-    original_nvram_vtable = rk64(obj);
-    uint64_t vtable_xpac = kernel_xpacd(original_nvram_vtable);
-    // copy vtable to userspace
+void nvram_unlock_func() {
+    uint64_t obj = iodtnvram_fetch_ls();
+    origNVRAM_VTABLE = rk64(obj);
+    uint64_t vtable_xpac = kernel_xpacd(origNVRAM_VTABLE);
     uint64_t *buf = calloc(1, max_vtable_size);
     assert(buf);
     
     kread(vtable_xpac, buf, max_vtable_size);
     buf[getOFVariablePerm/sizeof(uint64_t)] = kernel_xpaci(buf[searchNVRAMProperty/sizeof(uint64_t)]);
     
-    kern_return_t kr = mach_vm_allocate(tfp0, &fake_nvram_vtable,
-                                        kernel_buffer_size, VM_FLAGS_ANYWHERE);
+    kern_return_t kr = mach_vm_allocate(tfp0, &fake_nvram_vtable, kernel_buffer_size, VM_FLAGS_ANYWHERE);
     if (kr != KERN_SUCCESS) {
         ERROR("%s returned %d: %s", "mach_vm_allocate", kr, mach_error_string(kr));
-        ERROR("could not allocate kernel buffer");
+        printf("[!] Could not allocate kernel buffer\n");
     }
-    DEBUG_TRACE(1, "allocated kernel buffer at 0x%016llx", fake_nvram_vtable);
-    
-    // Forge the pacia pointers to the virtual methods.
+    printf("[+] Allocated kernel buffer at 0x%016llx\n", fake_nvram_vtable);
+
     size_t count = 0;
     for (; count < max_vtable_size / sizeof(*buf); count++) {
         uint64_t vmethod = buf[count];
@@ -168,13 +170,41 @@ void unlocknvram() {
             break;
         }
     }
+    
     kwrite(fake_nvram_vtable, buf, count*sizeof(*buf));
-    wk64(obj, kernel_forge_pacda(fake_nvram_vtable, 0));
+    wk64(obj, kernel_forge_pacda(fake_nvram_vtable, 0)); // Just in case I ever support A12...
     free(buf);
     return;
 }
 
+void nvram_lockback_func() {
+    printf("[i] Preparing to lock the NVRAM back...\n");
+    if (fake_nvram_vtable == 0 || origNVRAM_VTABLE == 0) {
+        printf("[!] Already locked?\n");
+        return;
+    }
+    
+    if (origNVRAM_VTABLE != 0) {
+        uint64_t obj = iodtnvram_fetch_ls();
+        wk64(obj, origNVRAM_VTABLE);
+    }
+    
+    if (fake_nvram_vtable != 0) {
+        mach_vm_deallocate(mach_task_self(), fake_nvram_vtable, kernel_buffer_size);
+        fake_nvram_vtable = 0;
+    }
+    
+    if (MACH_PORT_VALID(IODTNVRAMSrv)) {
+        IOServiceClose(IODTNVRAMSrv);
+        IODTNVRAMSrv = MACH_PORT_NULL;
+        printf("[i] CLosing IOService (IODTNVRAMSrv)...\n");
+    }
+    printf("[*] NVRAM locked\n");
+    return;
+}
+
 void executeCommandAtFuckingPath(const char* path, int argc, ...) {
+    printf("[i] Preparing to execute command at path: %s\n", path);
     va_list ap;
     va_start(ap, argc);
     
@@ -188,8 +218,11 @@ void executeCommandAtFuckingPath(const char* path, int argc, ...) {
     
     posix_spawn(NULL, path, NULL, NULL, (char *const*)argv, NULL);
     free(argv);
+    return;
 }
 
 void restore_credentials(uint64_t ucred_field, uint64_t ucred) {
+    printf("[*] Restoring process' credentials...\n");
     wk64(ucred_field, ucred);
+    return;
 }

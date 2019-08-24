@@ -1065,26 +1065,12 @@ IORegistryEntryGetParentIterator(
 	const io_name_t		plane,
 	io_iterator_t	      * iterator );
 
-/*! @function IORegistryEntryGetParentEntry
-    @abstract Returns the first parent of a registry entry in a plane.
-    @discussion This function will return the parent to which the registry entry was first attached in a plane.
-    @param entry The registry entry whose parent to look up.
-    @param plane The name of an existing registry plane. Plane names are defined in IOKitKeys.h, eg. kIOServicePlane.
-    @param child The first parent of the registry entry, on success. The parent must be released by the caller.
-    @result A kern_return_t error code. */
-
 kern_return_t
 IORegistryEntryGetParentEntry(
 	io_registry_entry_t	entry,
 	const io_name_t		plane,
 	io_registry_entry_t   * parent );
 
-/*! @function IORegistryEntryInPlane
-    @abstract Determines if the registry entry is attached in a plane.
-    @discussion This method determines if the entry is attached in a plane to any other entry.
-    @param entry The registry entry.
-    @param plane The name of an existing registry plane. Plane names are defined in IOKitKeys.h, eg. kIOServicePlane.
-    @result If the entry has a parent in the plane, true is returned, otherwise false is returned. */
 
 boolean_t
 IORegistryEntryInPlane(
