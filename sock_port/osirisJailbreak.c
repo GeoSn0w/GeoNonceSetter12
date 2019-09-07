@@ -118,19 +118,21 @@ int elevatePrivsAndShaiHulud(){
         uint64_t cr_label = rk64(creds + off_ucred_cr_label);
         wk64(cr_label + off_sandbox_slot, 0);
     
-    if (geteuid() == 0) {
-        FILE * testfile = fopen("/var/mobile/OsirisJailbreak", "w");
-        if (!testfile) {
-            printf("[i] We failed! Still Sandboxed\n");
-            return -2; // Root, but sandboxed :/
-        }else {
-            printf("[i] Nuked SandBox, FREEEEEEEEE!!!!!!\n");
-            printf("[+] Wrote file OsirisJailbreak to /var/mobile/OsirisJailbreak successfully!\n");
-            return 0; // FREE!!!!
+        if (geteuid() == 0) {
+            
+            FILE * testfile = fopen("/var/mobile/OsirisJailbreak", "w");
+                if (!testfile) {
+                    printf("[i] We failed! Still Sandboxed\n");
+                    return -2; // Root, but sandboxed :/
+                }else {
+                    printf("[i] Nuked SandBox, FREEEEEEEEE!!!!!!\n");
+                    printf("[+] Wrote file OsirisJailbreak to /var/mobile/OsirisJailbreak successfully!\n");
+                    return 0; // FREE!!!!
+                }
+            
+        } else {
+            return -1; // Not even root :(
         }
-    } else {
-        return -1; // Not even root :(
-    }
     return 0;
 }
 

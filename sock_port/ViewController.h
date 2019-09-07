@@ -11,6 +11,7 @@
 @interface ViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIButton *setNonceButton;
 @property (weak, nonatomic) IBOutlet UITextField *noncefield;
+@property (weak, nonatomic) IBOutlet UIButton *hex16OnesBtn;
 
 
 @end

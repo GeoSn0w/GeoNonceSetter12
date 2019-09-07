@@ -63,12 +63,27 @@
                                     <action selector="setNonceNow:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gTd-4d-XIB"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2C0-Be-6CF">
+                                <rect key="frame" x="64" y="320" width="259" height="41"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="41" id="XpD-wR-12o"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <state key="normal" title="Set 0x11111111111111111" backgroundImage="button">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="injectHex16Ones:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KUe-xN-tAE"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <constraints>
                             <constraint firstItem="7eS-ik-Sq8" firstAttribute="trailing" secondItem="VcV-m6-IA3" secondAttribute="trailing" id="1tm-pd-8oF"/>
                             <constraint firstAttribute="trailing" secondItem="lLB-wi-dpa" secondAttribute="trailing" constant="-8" id="Ayj-bh-psN"/>
                             <constraint firstItem="hri-xI-q6s" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Hkr-va-4CW"/>
+                            <constraint firstItem="2C0-Be-6CF" firstAttribute="trailing" secondItem="uZi-U9-bgz" secondAttribute="trailing" id="Idx-cD-eGl"/>
+                            <constraint firstItem="2C0-Be-6CF" firstAttribute="leading" secondItem="uZi-U9-bgz" secondAttribute="leading" id="JVa-L3-UgA"/>
                             <constraint firstItem="VcV-m6-IA3" firstAttribute="top" secondItem="7eS-ik-Sq8" secondAttribute="bottom" constant="7" id="MOe-nc-fiQ"/>
                             <constraint firstItem="7eS-ik-Sq8" firstAttribute="leading" secondItem="VcV-m6-IA3" secondAttribute="leading" id="NI2-hG-ggt"/>
                             <constraint firstItem="hri-xI-q6s" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="155" id="NtR-7y-5eN"/>
@@ -81,19 +96,21 @@
                             <constraint firstItem="uZi-U9-bgz" firstAttribute="centerX" secondItem="RuD-fi-uGv" secondAttribute="centerX" id="lwE-7T-6U8"/>
                             <constraint firstItem="hri-xI-q6s" firstAttribute="centerX" secondItem="7eS-ik-Sq8" secondAttribute="centerX" id="n6c-o8-Y1V"/>
                             <constraint firstItem="RuD-fi-uGv" firstAttribute="top" secondItem="hri-xI-q6s" secondAttribute="bottom" constant="8" symbolic="YES" id="ozw-ge-DIx"/>
+                            <constraint firstItem="2C0-Be-6CF" firstAttribute="top" secondItem="uZi-U9-bgz" secondAttribute="bottom" constant="8" symbolic="YES" id="pvn-Rq-52f"/>
                             <constraint firstItem="RuD-fi-uGv" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="46" id="ucl-hk-WOe"/>
                             <constraint firstItem="lLB-wi-dpa" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="vAP-G8-PjC"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="hex16OnesBtn" destination="2C0-Be-6CF" id="Kie-F1-Lgt"/>
                         <outlet property="noncefield" destination="RuD-fi-uGv" id="DeL-Iv-mIL"/>
                         <outlet property="setNonceButton" destination="uZi-U9-bgz" id="tMk-PT-yDX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="127.2" y="130.88455772113943"/>
+            <point key="canvasLocation" x="126.08695652173914" y="130.43478260869566"/>
         </scene>
     </scenes>
     <resources>

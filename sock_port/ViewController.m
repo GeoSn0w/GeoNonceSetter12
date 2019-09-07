@@ -31,6 +31,11 @@
     [super viewDidLoad];
    
 }
+- (IBAction)injectHex16Ones:(id)sender {
+    _noncefield.text = @"0x1111111111111111";
+    _hex16OnesBtn.enabled = false;
+    [sender setTitle:@"Pasted!" forState:UIControlStateNormal];
+}
 
 -(void)viewDidAppear:(BOOL)animated{
      [self deviceSanityCheck]; //Ensure it's not A12...
@@ -74,6 +79,7 @@
         [self presentViewController:alert animated:YES completion:nil];
     }
 }
+
 - (IBAction)setNonceNow:(id)sender {
     [self.view endEditing:YES];
     if (SYSTEM_VERSION_LESS_THAN(@"12.0")) {
@@ -211,7 +217,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 _setNonceButton.enabled = false;
                 _noncefield.enabled = false;
-                [sender setTitle:@"tfp0 failure" forState:UIControlStateDisabled];
+                [sender setTitle:@"Can't get tfp0" forState:UIControlStateDisabled];
             });
         }
     });
